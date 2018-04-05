@@ -1,3 +1,88 @@
-<p>
-  new-transaction works!
-</p>
+<div class="card card-margin">
+  <div class="card-body">
+    <h3 class="card-title">Create a new transaction</h3>
+    <p class="card-text">To create a new transaction please provide below details.</p>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label>Transaction ID</label>
+              <input type="number" class="form-control" [(ngModel)]="transactionID" placeholder="Transaction ID" (blur)="validateFields('transactionID')">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="!v_transactionID">
+              {{errMsg}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label>Email ID</label>
+              <input type="text" class="form-control" [(ngModel)]="emailID" placeholder="email@email.com" (blur)="validateFields('emailID')">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="!v_emailID">
+              {{errMsg}}
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="v_emailID && !v_email">
+                Please Enter valid email address.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label>Amount</label>
+              <input type="number" class="form-control" [(ngModel)]="amount" placeholder="Amount" (blur)="validateFields('amount')">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="!v_amount">
+              {{errMsg}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>Select Currency</label>
+              <select class="form-control" [(ngModel)]="currency" (change)="validateFields('currency')" (blur)="validateFields('currency')">
+                <option> Select Currency</option>
+                <option> EUR</option>
+                <option>INR</option>
+                <option>GBP</option>
+                <option>USD</option>
+              </select>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="!v_currency">
+              {{errMsg}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">              
+              <div class="form-group">
+                <label>Select Date</label>
+                <div class="input-group">                  
+                  <input class="form-control" [(ngModel)]="date" placeholder="yyyy-mm-dd"
+                      ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateSelection()" (blur)="validateFields('date')">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      Select Date
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="alert alert-danger" role="alert" *ngIf="!v_date && inv_date">
+                {{errMsg}}
+              </div>
+              <div class="alert alert-danger" role="alert" *ngIf="v_date && !inv_date">
+                  Enter valid date in yyyy-mm-dd format.
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+  <div class="row create-transaction-button">
+    <button type="button" class="btn btn-primary btn-lg" (click)="getTransactionDetails()">Create Transaction</button>
+  </div>
+</div>
