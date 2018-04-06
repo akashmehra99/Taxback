@@ -1,3 +1,60 @@
-<p>
-  search-transactions works!
-</p>
+<div class="card card-margin">
+    <div class="card-body">
+      <h3 class="card-title">Search Transactions</h3>
+      <p class="card-text">To search all transactions associated with username</p>
+      <div class="alert alert-danger" role="alert" *ngIf="noOfRecords === 0">
+          No records found.
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>Email ID</label>
+            <input type="text" class="form-control" [(ngModel)]="emailID" placeholder="email@email.com" 
+              (ngModelChange)="updateError()" (blur)="validateEmail()">
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="!v_emailID">
+            This field is required.
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="v_emailID && !v_email">
+              Please Enter valid email address.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>Transaction ID</label>
+            <input type="number" class="form-control" [(ngModel)]="transactionID" placeholder="Transaction ID" 
+              (ngModelChange)="updateError()" (blur)="validateTranId()">
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="!v_transactionID">
+            This field is required.
+          </div>
+        </div>
+      </div>
+      <div class="row search-transaction-button">
+          <button type="button" class="btn btn-primary btn-lg" (click)="getTransactionDetails()">Search Transaction</button>
+        </div>
+        <div class="table-responsive-sm table-responsive-md table-responsive-xs table-responsive-lg">
+          <table class="table table-striped" *ngIf="records.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Currency</th>
+                <th scope="col">Date (yyyy-mm-dd)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of records">
+                <th scope="row">{{record.id}}</th>
+                <td>{{record.amount}}</td>
+                <td>{{record.currency}}</td>
+                <td>{{record.txn_date}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+  
