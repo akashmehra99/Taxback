@@ -11,6 +11,14 @@ export class CommonServiceService {
   endPointUrl = 'https://jointhecrew.in/api/txns/';
   serviceSuccess: boolean;
   result;
+  updateTrans = false;
+  updateDetails = {
+    id: '',
+    user: '',
+    amount: '',
+    currency: '',
+    txn_date: ''
+  };
 
   constructor(private http: Http) { }
 
@@ -23,13 +31,34 @@ export class CommonServiceService {
     return Observable.throw(error.message || error);
   }
 
+  resetUpdateDetails(): void {
+    this.updateTrans = false;
+    this.updateDetails = {
+      id: '',
+      user: '',
+      amount: '',
+      currency: '',
+      txn_date: ''
+    };
+  }
+
   createTransaction(): Observable<any> {
     return this.http.post(this.endPointUrl + this.request.user, this.request)
     .map(this.extractData).catch(this.handleErrorObservable);
   }
 
+  updateTransaction(): Observable<any> {
+    return this.http.post(this.endPointUrl + this.updateDetails.user + '/' + this.updateDetails.id, this.request)
+    .map(this.extractData).catch(this.handleErrorObservable);
+  }
+
   getTransactions(): Observable<any> {
     return this.http.get(this.endPointUrl + this.request)
+    .map(this.extractData).catch(this.handleErrorObservable);
+  }
+
+  deleteTransation(): Observable<any> {
+    return this.http.delete(this.endPointUrl + this.request)
     .map(this.extractData).catch(this.handleErrorObservable);
   }
 

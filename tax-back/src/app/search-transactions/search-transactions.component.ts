@@ -1,5 +1,6 @@
 import { CommonServiceService } from './../common-service.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-transactions',
@@ -16,9 +17,10 @@ export class SearchTransactionsComponent implements OnInit {
   noOfRecords;
   records = [];
 
-  constructor(private commServ: CommonServiceService) { }
+  constructor(private commServ: CommonServiceService, private router: Router) { }
 
   ngOnInit() {
+    this.commServ.resetUpdateDetails();
   }
 
   validateEmail(): void {
@@ -71,6 +73,28 @@ export class SearchTransactionsComponent implements OnInit {
 
   updateError(): void {
     this.noOfRecords = 1;
+  }
+
+  deleteTrans(user, id): void {
+    this.commServ.request = user + '/' + id;
+    this.commServ.deleteTransation().subscribe(
+      data => {
+        this.commServ.result = 'Transaction Deleted for ' + user + ' with transaction id ' + id;
+        this.commServ.serviceSuccess = true;
+        this.router.navigate(['result']);
+      },
+      error => {
+        this.commServ.result = 'Could not delete transaction for ' + user + ' with transaction id ' + id;
+        this.commServ.serviceSuccess = false;
+        this.router.navigate(['result']);
+      }
+    );
+  }
+
+  updateTrans(record): void {
+    this.commServ.updateTrans = true;
+    this.commServ.updateDetails = record;
+    this.router.navigate(['update']);
   }
 }
 

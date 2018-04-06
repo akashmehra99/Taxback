@@ -31,6 +31,8 @@
               <th scope="col">Amount</th>
               <th scope="col">Currency</th>
               <th scope="col">Date (yyyy-mm-dd)</th>
+              <th scope="col">Delete</th>
+              <th scope="col">Update</th>
             </tr>
           </thead>
           <tbody>
@@ -39,6 +41,8 @@
               <td>{{record.amount}}</td>
               <td>{{record.currency}}</td>
               <td>{{record.txn_date}}</td>
+              <td><button type="button" class="btn btn-link" (click)="deleteTrans(record.user, record.id)">Delete</button></td>
+              <td><button type="button" class="btn btn-link" (click)="updateTrans(record)">Update</button></td>
             </tr>
           </tbody>
         </table>

@@ -1,14 +1,17 @@
 <div class="card card-margin">
   <div class="card-body">
-    <h3 class="card-title">Create a new transaction</h3>
-    <p class="card-text">To create a new transaction please provide below details.</p>
+    <h3 class="card-title" *ngIf="!commServ.updateTrans">Create a new transaction</h3>
+    <p class="card-text" *ngIf="!commServ.updateTrans" >To create a new transaction please provide below details.</p>
+    <h3 class="card-title" *ngIf="commServ.updateTrans">Update a transaction</h3>
+    <p class="card-text" *ngIf="commServ.updateTrans" >To update transaction please provide below details.</p>
     <div class="card">
       <div class="card-body">        
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <label>Email ID</label>
-              <input type="text" class="form-control" [(ngModel)]="emailID" placeholder="email@email.com" (blur)="validateFields('emailID')">
+              <input type="text" class="form-control" [(ngModel)]="emailID" placeholder="email@email.com" 
+                [disabled]="disableEmail" (blur)="validateFields('emailID')">
             </div>
             <div class="alert alert-danger" role="alert" *ngIf="!v_emailID">
               {{errMsg}}
@@ -22,7 +25,8 @@
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <label>Amount</label>
-              <input type="number" class="form-control" [(ngModel)]="amount" placeholder="Amount" (blur)="validateFields('amount')">
+              <input type="number" class="form-control" [(ngModel)]="amount" placeholder="Amount" 
+                min="0" (blur)="validateFields('amount')">
             </div>
             <div class="alert alert-danger" role="alert" *ngIf="!v_amount">
               {{errMsg}}
@@ -72,6 +76,7 @@
     </div>    
   </div>
   <div class="row create-transaction-button">
-    <button type="button" class="btn btn-primary btn-lg" (click)="getTransactionDetails()">Create Transaction</button>
+    <button *ngIf="!commServ.updateTrans" type="button" class="btn btn-primary btn-lg" (click)="getTransactionDetails()">Create Transaction</button>
+    <button *ngIf="commServ.updateTrans" type="button" class="btn btn-primary btn-lg" (click)="getTransactionDetails()">Update Transaction</button>
   </div>
 </div>

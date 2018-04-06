@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'search', component: SearchTransactionsComponent },
   { path: 'details', component: DetailsTransactionComponent },
   { path: 'new-transaction', component: NewTransactionComponent },
-  { path: 'result', component: SuccessFailureComponent}
+  { path: 'result', component: SuccessFailureComponent},
+  { path: 'update', component: NewTransactionComponent },
 ];
 
 @NgModule({

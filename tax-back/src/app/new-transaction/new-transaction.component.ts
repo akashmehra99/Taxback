@@ -12,6 +12,7 @@ export class NewTransactionComponent implements OnInit {
 
   date: NgbDateStruct;
   emailID: String;
+  disableEmail = false;
   amount: Number;
   currency = 'Select Currency';
   v_date = true;
@@ -27,9 +28,37 @@ export class NewTransactionComponent implements OnInit {
   constructor(private commServ: CommonServiceService, private router: Router) { }
 
   ngOnInit() {
+    if (this.commServ.updateDetails.user !== '' && this.commServ.updateDetails.id !== '' && 
+      this.commServ.updateDetails.txn_date !== undefined) {
+      this.disableEmail = true;
+      this.emailID = this.commServ.updateDetails.user;
+      this.amount = Number(this.commServ.updateDetails.amount);
+      this.currency = this.commServ.updateDetails.currency;
+      this.date = this.getDate(this.commServ.updateDetails.txn_date);
+    } else {
+        this.disableEmail = false;
+        this.emailID = '';
+        this.amount = Number();
+        this.currency = '';
+        this.date = {
+          year: Number(),
+          month: Number(),
+          day: Number()
+        };
+    }
+  }
+
+  getDate(date): NgbDateStruct {
+    const d = date.split('-');
+    return {
+      year: Number(d[0]),
+      month: Number(d[1]),
+      day: Number(d[2])
+    };
   }
 
   onDateSelection() {
+    console.log(this.date);
     this.validateFields('date');
   }
 
@@ -107,18 +136,35 @@ export class NewTransactionComponent implements OnInit {
       'txn_date':  this.formattedDate
     };
     this.commServ.request = request;
-    this.commServ.createTransaction().subscribe(
-      data => {
-        this.commServ.result = 'Created new transaction with transacion ID: ' + data.id;
-        this.commServ.serviceSuccess = true;
-        this.router.navigate(['result']);
-      },
-      error => {
-        this.commServ.result = 'Unable to create new transaction. Try again later.';
-        this.commServ.serviceSuccess = false;
-        this.router.navigate(['result']);
-      }
-    );
+    if (!this.commServ.updateTrans) {
+      this.commServ.createTransaction().subscribe(
+        data => {
+          this.commServ.result = 'Created new transaction with transacion ID: ' + data.id;
+          this.commServ.serviceSuccess = true;
+          this.router.navigate(['result']);
+        },
+        error => {
+          this.commServ.result = 'Unable to create new transaction. Try again later.';
+          this.commServ.serviceSuccess = false;
+          this.router.navigate(['result']);
+        }
+      );
+    } else {
+      this.commServ.updateTransaction().subscribe(
+        data => {
+          this.commServ.result = 'Update new transaction with transacion ID: ' + data.id;
+          this.commServ.serviceSuccess = true;
+          this.commServ.updateTrans = false;
+          this.commServ.resetUpdateDetails();
+          this.router.navigate(['result']);
+        },
+        error => {
+          this.commServ.result = 'Unable to create new transaction. Try again later.';
+          this.commServ.serviceSuccess = false;
+          this.router.navigate(['result']);
+        }
+      );
+    }
 
   }
 
