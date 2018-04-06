@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SuccessFailureComponent implements OnInit {
 
-  constructor(private commServ: CommonServiceService) { }
+  constructor(public commServ: CommonServiceService) { }
 
   ngOnInit() {
   }

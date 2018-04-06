@@ -17,7 +17,7 @@ export class SearchTransactionsComponent implements OnInit {
   noOfRecords;
   records = [];
 
-  constructor(private commServ: CommonServiceService, private router: Router) { }
+  constructor(public commServ: CommonServiceService, public router: Router) { }
 
   ngOnInit() {
     this.commServ.resetUpdateDetails();

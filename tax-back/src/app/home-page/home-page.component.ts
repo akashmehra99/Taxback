@@ -8,7 +8,7 @@ import { CommonServiceService } from '../common-service.service';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private commServ: CommonServiceService) { }
+  constructor(public commServ: CommonServiceService) { }
 
   ngOnInit() {
     this.commServ.resetUpdateDetails();

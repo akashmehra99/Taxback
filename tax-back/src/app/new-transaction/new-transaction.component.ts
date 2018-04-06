@@ -25,7 +25,7 @@ export class NewTransactionComponent implements OnInit {
   formattedDate: String;
   isFormValid = true;
 
-  constructor(private commServ: CommonServiceService, private router: Router) { }
+  constructor(public commServ: CommonServiceService, public router: Router) { }
 
   ngOnInit() {
     if (this.commServ.updateDetails.user !== '' && this.commServ.updateDetails.id !== '' && 
