@@ -4,13 +4,15 @@ import { SearchTransactionsComponent } from './search-transactions/search-transa
 import { DetailsTransactionComponent } from './details-transaction/details-transaction.component';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { SuccessFailureComponent } from './success-failure/success-failure.component';
 
 const routes: Routes = [
   { path: 'home',        component: HomePageComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: 'search', component: SearchTransactionsComponent },
   { path: 'details', component: DetailsTransactionComponent },
-  { path: 'new-transaction', component: NewTransactionComponent }
+  { path: 'new-transaction', component: NewTransactionComponent },
+  { path: 'result', component: SuccessFailureComponent}
 ];
 
 @NgModule({

@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CommonServiceService } from './common-service.service';
 import { HttpModule } from '@angular/http';
+import { SuccessFailureComponent } from './success-failure/success-failure.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { HttpModule } from '@angular/http';
     NewTransactionComponent,
     DetailsTransactionComponent,
     HeaderComponent,
-    HomePageComponent
+    HomePageComponent,
+    SuccessFailureComponent
   ],
   imports: [
     BrowserModule,

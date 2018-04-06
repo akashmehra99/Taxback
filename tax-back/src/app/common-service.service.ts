@@ -9,6 +9,8 @@ export class CommonServiceService {
 
   request;
   endPointUrl = 'https://jointhecrew.in/api/txns/';
+  serviceSuccess: boolean;
+  result;
 
   constructor(private http: Http) { }
 
@@ -22,7 +24,7 @@ export class CommonServiceService {
   }
 
   createTransaction(): Observable<any> {
-    return this.http.post(this.endPointUrl, this.request)
+    return this.http.post(this.endPointUrl + this.request.user, this.request)
     .map(this.extractData).catch(this.handleErrorObservable);
   }
 

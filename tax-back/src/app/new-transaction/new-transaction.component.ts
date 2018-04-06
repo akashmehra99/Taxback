@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CommonServiceService } from './../common-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-transaction',
@@ -10,13 +11,11 @@ import { CommonServiceService } from './../common-service.service';
 export class NewTransactionComponent implements OnInit {
 
   date: NgbDateStruct;
-  transactionID: Number;
   emailID: String;
   amount: Number;
   currency = 'Select Currency';
   v_date = true;
   inv_date = true;
-  v_transactionID = true;
   v_emailID = true;
   v_email = true;
   v_amount = true;
@@ -25,7 +24,7 @@ export class NewTransactionComponent implements OnInit {
   formattedDate: String;
   isFormValid = true;
 
-  constructor(private commServ: CommonServiceService) { }
+  constructor(private commServ: CommonServiceService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -35,9 +34,7 @@ export class NewTransactionComponent implements OnInit {
   }
 
   validateFields(param): void {
-    if (param === 'transactionID') {
-      this.v_transactionID = this.validation(this.transactionID);
-    } else if (param === 'emailID') {
+    if (param === 'emailID') {
       this.v_emailID = this.validation(this.emailID);
       if (this.v_emailID) {
         this.v_email = this.emailValidation(this.emailID);
@@ -62,7 +59,18 @@ export class NewTransactionComponent implements OnInit {
   }
 
   formatDate(): void {
-    this.formattedDate = this.date.year + '-' + this.date.month + '-' + this.date.day;
+    let month = '0', day = '0';
+    if (this.date.month < 10) {
+      month = month + (this.date.month).toString();
+    } else {
+      month = (this.date.month).toString();
+    }
+    if (this.date.day < 10) {
+      day = day + (this.date.day).toString();
+    } else {
+      day = (this.date.day).toString();
+    }
+    this.formattedDate = this.date.year + '-' + month + '-' + day;
   }
 
   emailValidation(email): boolean {
@@ -92,21 +100,23 @@ export class NewTransactionComponent implements OnInit {
         return false;
       }
     }
-    console.log('Form Valid : ', this.isFormValid);
-    const request = [{
-      'id': this.transactionID,
+    const request = {
       'user': this.emailID,
       'amount': this.amount,
       'currency': this.currency,
       'txn_date':  this.formattedDate
-    }];
+    };
     this.commServ.request = request;
     this.commServ.createTransaction().subscribe(
       data => {
-        console.log(data);
+        this.commServ.result = 'Created new transaction with transacion ID: ' + data.id;
+        this.commServ.serviceSuccess = true;
+        this.router.navigate(['result']);
       },
       error => {
-        console.log(error);
+        this.commServ.result = 'Unable to create new transaction. Try again later.';
+        this.commServ.serviceSuccess = false;
+        this.router.navigate(['result']);
       }
     );
 

@@ -1,0 +1,13 @@
+<div class="card card-margin">
+  <div class="card-body">
+    <h3 class="card-title">Result</h3>
+    <div *ngIf="commServ.serviceSuccess" class="alert alert-success" role="alert">
+      {{commServ.result}}
+    </div>
+    <div *ngIf="!commServ.serviceSuccess && commServ.serviceSuccess !== undefined" class="alert alert-danger" role="alert">
+      {{commServ.result}}
+    </div>
+    <a routerLink="/home" routerLinkActive="active" class="card-link">Home</a>
+    <a routerLink="/details" routerLinkActive="active" class="card-link">Search Transactions</a>
+  </div>
+</div>
